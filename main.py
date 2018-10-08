@@ -28,6 +28,7 @@ with open(file, 'r') as data:
         carData[int(line[0])] = [int(i) for i in line[1:]]
 # ----------------------------------------------- #
 screen = pygame.display.set_mode(Size)
+print(Size)
 pygame.display.set_caption("V2V")
 
 clock = pygame.time.Clock()
@@ -50,7 +51,10 @@ while True:
 
     # update car x-position
     for key in carData.keys():
-        carData[key][2] += carData[key][1]/5  # speed cut by factor of 5 to prevent cars from looking too fast
+        if carData[key][2] <= Size[0]:
+            carData[key][2] += carData[key][1]/5  # speed cut by factor of 5 to prevent cars from looking too fast
+        else:
+            carData[key][2] = -20
 
     pygame.display.update()
     clock.tick(fps)

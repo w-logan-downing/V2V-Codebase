@@ -44,8 +44,6 @@ class Car:
     def draw(self):
         self.screen.blit(imgR, (self.x, self.y))
 
-
-
         
         
 
