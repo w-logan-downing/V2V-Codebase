@@ -12,6 +12,8 @@ import render
 from constant import *
 import csv
 
+print("For fun!")
+
 pygame.init()  # initialize the pygame framework
 
 # ------------Collect Car Data------------------- #
