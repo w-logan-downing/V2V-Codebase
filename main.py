@@ -17,8 +17,7 @@ import csv
 pygame.init()  # initialize the pygame framework
 
 # ------------Collect Car Data------------------- #
-file = "C:\\Users\\Downi\\OneDrive\\College\\GradSchool\\CS501ComputerScience&Engineering" \
-       "\\ProSE\\V2V-Codebase\\Data\\exampleData.csv"
+file = "Data\\exampleData.csv"
 
 carData = {}  # store all data for the cars
 
