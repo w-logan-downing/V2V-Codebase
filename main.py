@@ -34,9 +34,10 @@ with open(file, 'r') as data:
 '''
 
 #------------change the directory to your own-----------------#
-os.chdir('D:\Purdue\CS501\V2V\Code\Github\V2V-Codebase')
+#os.chdir('D:\Purdue\CS501\V2V\Code\Github\V2V-Codebase')
 os.getcwd()
-PATH_LOAD = "./Data/us-101.csv"
+PATH_LOAD = "./Data/us101.csv"
+#PATH_LOAD = "./Data/lankershim.csv"
 if 'df101' in vars():
     pass
 else:
@@ -55,7 +56,7 @@ TimePoint=GT[0]
 
 carData={}
 for i in ID:
-    carData[i]=us101.Vehicle(vID=i)
+    carData[i]=us101.Vehicle(vID=i) # store vehicle object in carData dictionary
 # ----------------------------------------------- #
 screen = pygame.display.set_mode(Size)
 #print(Size)
@@ -64,18 +65,15 @@ pygame.display.set_caption("V2V")
 clock = pygame.time.Clock()
 
 # main loop of the program
-
 while True:
 
     # event processing, user does stuff here or game is exited
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            sys.exit(0) #for spyder to exit the whole program
-            #quit() #for IDLE?
+            sys.exit(0) # exit the whole program
     
     render.Background(screen).draw()  # render the screen
-    
     
     # generate and draw all car objects
     tmp_df=df_test[df_test['Global_Time']==TimePoint]
