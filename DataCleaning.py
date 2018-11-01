@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-from pandas.core.frame import DataFrame
-
+#from pandas.core.frame import DataFrame
+'''
 if 'df' in vars():
     pass
 else:
@@ -41,17 +41,18 @@ Vehicle4=dfCAR[dfCAR['Vehicle_ID']==4]
 tcCAR=dfCAR[dfCAR['Global_Time']>CriT]
 tcCAR=tcCAR.sort_values(by=['Location','Vehicle_ID','Global_Time'])
 tcCAR.to_csv('Sorted_Time_Corrected_Data.csv')
-
+'''
+tcCAR=pd.read_csv('./Data/Sorted_Time_Corrected_Data.csv')
 #There're only 3 roads left, all the data on location "peachtree" have wrong time
 RoadNames=list(set(list(tcCAR['Location'])))
 RoadNames.sort()
-WrongT_RoadNames=list(set(list(WrongT_CAR['Location'])))
+#WrongT_RoadNames=list(set(list(WrongT_CAR['Location'])))
 
 #divide dataset into three based on Location
 df80=tcCAR[tcCAR['Location']==RoadNames[0]]
 dfLan=tcCAR[tcCAR['Location']==RoadNames[1]]
 df101=tcCAR[tcCAR['Location']==RoadNames[2]]
-
+'''
 #List the time in order and find how many cars are there at the same time on each road
 Tof80=list(set(list(df80['Global_Time'])))
 TofLan=list(set(list(dfLan['Global_Time'])))
@@ -81,7 +82,23 @@ for i in tqdm(Tof101):
     N=len(df101[df101['Global_Time']==i])
     Nof101[n]=N
     n+=1
-
+Time=Tof80+TofLan+Tof101
+Number=list(Nof80)+list(NofLan)+list(Nof101)
+Location=[RoadNames[0] for i in range(len(Tof80))]+\
+    [RoadNames[1] for i in range(len(TofLan))]+\
+    [RoadNames[2] for i in range(len(Tof101))]
+TNL=pd.DataFrame({'Time':Time,'NofCars':Number,'Location':Location},\
+                 index=list(range(len(Time))))
+TNL.to_csv('NofCars_Time_Location.csv')
+'''
+TNL=pd.read_csv("./Data/NofCars_Time_Location.csv")
+Tof80=TNL[TNL['Location']==RoadNames[0]]['Time']
+TofLan=TNL[TNL['Location']==RoadNames[1]]['Time']
+Tof101=TNL[TNL['Location']==RoadNames[2]]['Time']
+#Tof80.sort();TofLan.sort();Tof101.sort()
+Nof80=TNL[TNL['Location']==RoadNames[0]]['NofCars']
+NofLan=TNL[TNL['Location']==RoadNames[1]]['NofCars']
+Nof101=TNL[TNL['Location']==RoadNames[2]]['NofCars']
 
 plt.close('all')
 #show the diagrams of Number_of_Cars vs. time series on each road

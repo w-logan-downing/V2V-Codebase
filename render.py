@@ -18,6 +18,7 @@ class Background:
 
     def draw(self):
         self.screen.fill(white)
+        '''
         pygame.draw.line(self.screen, grey, (0, RoadPos), (Len, RoadPos), RoadWid)
         # draw lines
         pygame.draw.line(self.screen, yellow, (0, RoadPos), (Len, RoadPos), LineWid)
@@ -30,7 +31,7 @@ class Background:
                     pygame.draw.line(self.screen, yellow,(x, y), (x1, y), LineWid)
                 else:
                     continue
-        
+        '''
         
 class Car:
     def __init__(self, screen, cid=1, direction=1, speed=20, x=10, y=390):
@@ -41,8 +42,10 @@ class Car:
         self.x = x
         self.y = y
 
-    def draw(self):
-        self.screen.blit(imgR, (self.x, self.y))
+    def draw(self,RangeXY):
+        drawX=(Len-2*Xborder)*(self.x-RangeXY[0])/(RangeXY[1]-RangeXY[0])+Xborder
+        drawY=(Wid-2*Yborder)*(self.y-RangeXY[2])/(RangeXY[3]-RangeXY[2])+Yborder
+        self.screen.blit(imgR, (drawX, drawY))
 
         
         

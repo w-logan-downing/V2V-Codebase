@@ -8,8 +8,8 @@ Now is better than never.
 """
 import pygame
 
-fps = 30
-Size = Len, Wid = 1280, 720
+fps = 100
+Size = Len, Wid = 1280,720#1280, 720
 RoadPos = 360
 RoadWid = 300
 LineWid = int(RoadWid/50)
@@ -26,3 +26,6 @@ white=[255,255,255]
 yellow=[255,255,0]
 imgR=pygame.image.load('CarRight.png')
 imgL=pygame.image.load('CarLeft.png')
+
+Xborder=10
+Yborder=10

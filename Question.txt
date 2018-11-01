@@ -1,0 +1,1 @@
+If the other guy have made a change, but you haven't updated(fetch that?). And you also did some change to the program, what would happen if you try to update? Which version would be left, yours or the other one's or combined£¿
