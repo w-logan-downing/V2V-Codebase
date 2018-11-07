@@ -11,7 +11,6 @@ import pygame
 import numpy as np
 from constant import *
 
-
 class Background:
     def __init__(self, screen):
         self.screen = screen
@@ -34,9 +33,10 @@ class Background:
         '''
         
 class Car:
-    def __init__(self, screen, cid=1, direction=1, speed=20, x=10, y=390):
+    def __init__(self, screen, cid=1, color = imgR, direction=1, speed=20, x=10, y=390):
         self.screen = screen
         self.cid = cid
+        self.color = color
         self.direction = direction
         self.speed = speed
         self.x = x
@@ -45,7 +45,8 @@ class Car:
     def draw(self,RangeXY):
         drawX=(Len-2*Xborder)*(self.x-RangeXY[0])/(RangeXY[1]-RangeXY[0])+Xborder
         drawY=(Wid-2*Yborder)*(self.y-RangeXY[2])/(RangeXY[3]-RangeXY[2])+Yborder
-        self.screen.blit(imgR, (drawX, drawY))
+        self.screen.blit(self.color, (drawX, drawY))
+
 
         
         

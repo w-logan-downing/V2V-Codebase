@@ -7,6 +7,7 @@ Created on Mon Oct 29 23:35:22 2018
 
 import pandas as pd
 import numpy as np
+from constant import *
 
 class Vehicle:
     
@@ -27,8 +28,9 @@ class Vehicle:
     update method is to feed real time data to this vehicle and update all its variables.
     """
     
-    def __init__(self, vID=-1, globalTime=-1, xLoc=-1, yLoc=-1, vVel=-1, laneID=-1, move = float('nan'), transRange = 500, haveData = 0):
+    def __init__(self, vID=-1, color=imgR, globalTime=-1, xLoc=-1, yLoc=-1, vVel=-1, laneID=-1, move = float('nan'), transRange = 500, haveData = 0):
         self.vID = vID
+        self.color = color #determines the intial color of the vehicle
         self.globalTime = globalTime
         self.startTime = globalTime # Initialize the startTime for each vehicle by the first globalTime
         self.lastTime = globalTime # Initialize the lastTime for each vehicle by the first globalTime

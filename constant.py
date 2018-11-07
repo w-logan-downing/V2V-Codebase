@@ -26,6 +26,8 @@ white=[255,255,255]
 yellow=[255,255,0]
 imgR=pygame.image.load('CarRight.png')
 imgL=pygame.image.load('CarLeft.png')
+imgG=pygame.image.load('Car_grey.jpg')
+imgB=pygame.image.load('CarB.png')
 
 Xborder=10
 Yborder=10

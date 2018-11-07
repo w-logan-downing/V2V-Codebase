@@ -15,6 +15,7 @@ import pandas as pd
 import csv
 import us_101 as us101
 import time
+import random
 
 
 pygame.init()  # initialize the pygame framework
@@ -36,7 +37,7 @@ with open(file, 'r') as data:
 #------------change the directory to your own-----------------#
 #os.chdir('D:\Purdue\CS501\V2V\Code\Github\V2V-Codebase')
 os.getcwd()
-PATH_LOAD = "./Data/us101.csv"
+PATH_LOAD = "./Data/us-101.csv"
 #PATH_LOAD = "./Data/lankershim.csv"
 if 'df101' in vars():
     pass
@@ -56,7 +57,7 @@ TimePoint=GT[0]
 
 carData={}
 for i in ID:
-    carData[i]=us101.Vehicle(vID=i) # store vehicle object in carData dictionary
+    carData[i]=us101.Vehicle(vID=i, color=random.choice([imgR,imgB])) # store vehicle object in carData dictionary
 # ----------------------------------------------- #
 screen = pygame.display.set_mode(Size)
 #print(Size)
@@ -88,7 +89,7 @@ while True:
         
     for key in tmp_ID:
         item=carData[key]
-        render.Car(screen,x=item.xLoc,y=item.yLoc).draw(RangeXY)
+        render.Car(screen,x=item.xLoc,y=item.yLoc, color=item.color).draw(RangeXY)
     
     
     TimePoint += 100
