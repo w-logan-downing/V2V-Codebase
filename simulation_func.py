@@ -61,7 +61,6 @@ def simulation_func(sim_start, sim_end, transRange, transCap):
         carData[i] = us101.Vehicle(vID=i)  # store vehicle object in carData dictionary
 
     # ------ Assign data to one random vehicle at beginning of simulation ------ #
-    # carData[332].haveData = 1
     tmp_df = df_test[df_test['Global_Time'] == TimePoint]
     tmp_ID = tmp_df['Vehicle_ID'].unique()
     rndVehIniData = random.sample(range(len(tmp_ID)), 1)
