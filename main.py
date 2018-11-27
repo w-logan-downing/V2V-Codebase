@@ -77,14 +77,14 @@ clock = pygame.time.Clock()
 # transCap - V2V data transmission capacity of a vehicle
 
 sim_start = 10000  # Start time of simulation
-sim_end = 600  # Duration of simulation (typically 600000)
+sim_end = 6000  # Duration of simulation (typically 600000)
 storeTransEff = []  # stores V2V transmission efficiency values for different parameter inputs
 storeTransRange = []  # stores V2V transmission range values for different parameter inputs
 storeTransCap = []  # stores V2V data transmission capacity values for different parameter inputs
 
 # SIMULATION RUNS
-for VarTransCap in range(4, 6, 1):
-    for VarTransRange in range(50, 101, 50):
+for VarTransCap in range(1, 6, 1):
+    for VarTransRange in range(50, 501, 50):
         transEfficiency = simFunc.simulation_func(sim_start, sim_end, VarTransRange, VarTransCap)
         print("\nV2V Data Transmission Capacity:", VarTransCap, "vehicles at once")
         print("V2V Transmission Range:", VarTransRange, "feet")
