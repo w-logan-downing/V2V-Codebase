@@ -19,17 +19,12 @@ import us_101 as us101
 import time
 import random
 
-# def __init__(self, sim_start, sim_end, transRange, transCap):
-#     self.sim_start = sim_start
-#     self.sim_end = sim_end
-#     self.transRange = transRange
-#     self.transCap = transCap
 
 # ------ Function code to perform the main simulation ------ #
 
 def simulation_func(sim_start, sim_end, transRange, transCap):
 
-    #------------change the directory to your own-----------------#
+    # ------------change the directory to your own----------------- #
     #os.chdir('D:\Purdue\CS501\V2V\Code\Github\V2V-Codebase')
     os.getcwd()
     PATH_LOAD = "./Data/us-101.csv"
@@ -39,7 +34,7 @@ def simulation_func(sim_start, sim_end, transRange, transCap):
     else:
         df101 = pd.read_csv(PATH_LOAD)
 
-    #----test data----#
+    # -------------- Data -------------- #
     df_test = df101 #.iloc[:10000,:]
     RangeXY = [min(df_test['Local_X']),max(df_test['Local_X']),
             min(df_test['Local_Y']),max(df_test['Local_Y'])]
@@ -49,13 +44,11 @@ def simulation_func(sim_start, sim_end, transRange, transCap):
     GT.sort()
 
     # ---- SIMULATION PARAMETERS - Start time, Duration, Transmission range, Transmission capacity ---- #
-    # sim_start = 100  # Start time of simulation
+    # transRange - V2V transmission range (in feet)
+    # transCap - V2V data transmission capacity of a vehicle
+    # sim_end - Duration of simulation (typically 600000)
     StartTime = GT[sim_start]
     TimePoint = GT[sim_start]
-    # sim_end = 60000*5  # Duration of simulation (typically 600000)
-    # transRange = 100  # in feet
-    # transCap = 3  # data transmission capacity of a vehicle
-
     carData = {}
     for i in ID:
         carData[i] = us101.Vehicle(vID=i)  # store vehicle object in carData dictionary
@@ -117,20 +110,12 @@ def simulation_func(sim_start, sim_end, transRange, transCap):
     VehAllInSim = np.concatenate(storeVehicles, axis=0)
     VehAllInSim = pd.unique(VehAllInSim).tolist()
     VehAllInSim.sort()
-    # print("\nAll vehicles in simulation:", VehAllInSim)
-    # print(len(VehAllInSim))
 
     # -------------- For all vehicles that have data at end of simulation -------------- #
     VehWithData = pd.unique(storeVehWithData).tolist()
     VehWithData.sort()
-    # print("\nVehicles with data:", VehWithData)
-    # print(len(VehWithData))
 
     # ------------------ Transmission Efficiency ------------------ #
     transEfficiency = (len(storeVehWithData)/len(VehAllInSim))*100
-    # print("\nV2V Transmission Range:", transRange, "feet")
-    # print("\nV2V Data Transmission Capacity:", transCap, "vehicles at once")
-    # print("\nDuration of Simulation:", sim_end/(60*1000), "minutes")
-    # print("\nEfficiency of V2V Information Dissemination:", transEfficiency, "percent")
 
     return transEfficiency
