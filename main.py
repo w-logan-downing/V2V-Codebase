@@ -82,11 +82,12 @@ sim_start = 600  # Start time of simulation
 sim_end = [6000, 12000, 30000, 48000, 60000, 120000, 300000, 480000, 600000]  # Duration of simulation
 
 # Creating an excel file for output
-workbook = xlsxwriter.Workbook('SimulationOutput.xlsx')
+name = "SimulationOutput" + str(sim_start) + ".xlsx"
+workbook = xlsxwriter.Workbook(name)
 worksheet = workbook.add_worksheet()
 bold = workbook.add_format({'bold': 1})
 worksheet.set_column(1, 1, 12)
-worksheet.set_column(1, 2, 20)
+worksheet.set_column(1, 2, 30)
 worksheet.set_column(1, 3, 12)
 worksheet.set_column(1, 4, 12)
 worksheet.set_column(1, 5, 12)
