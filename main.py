@@ -17,6 +17,7 @@ import csv
 import us_101 as us101
 import time
 import random
+import xlsxwriter
 import simulation_func as simFunc
 
 pygame.init()  # initialize the pygame framework
@@ -73,39 +74,88 @@ clock = pygame.time.Clock()
 # Tested by: Samarth Jain
 
 # VARIABLES
+# sim_end - Duration of simulation
 # transRange - V2V transmission range (in feet)
 # transCap - V2V data transmission capacity of a vehicle
 
-sim_start = 10000  # Start time of simulation
-sim_end = 6000  # Duration of simulation (typically 600000)
-storeTransEff = []  # stores V2V transmission efficiency values for different parameter inputs
-storeTransRange = []  # stores V2V transmission range values for different parameter inputs
-storeTransCap = []  # stores V2V data transmission capacity values for different parameter inputs
+sim_start = 600  # Start time of simulation
+sim_end = [6000, 12000, 30000, 48000, 60000, 120000, 300000, 480000, 600000]  # Duration of simulation
+
+# Creating an excel file for output
+workbook = xlsxwriter.Workbook('SimulationOutput.xlsx')
+worksheet = workbook.add_worksheet()
+bold = workbook.add_format({'bold': 1})
+worksheet.set_column(1, 1, 12)
+worksheet.set_column(1, 2, 20)
+worksheet.set_column(1, 3, 12)
+worksheet.set_column(1, 4, 12)
+worksheet.set_column(1, 5, 12)
+worksheet.write('A1', 'Sim Start', bold)
+worksheet.write('B1', 'Sim Duration', bold)
+worksheet.write('C1', 'Sim Duration (in min)', bold)
+worksheet.write('D1', 'Trans Capacity', bold)
+worksheet.write('E1', 'Trans Range', bold)
+worksheet.write('F1', 'Trans Efficiency', bold)
+row = 1
+col = 0
 
 # SIMULATION RUNS
-for VarTransCap in range(1, 6, 1):
-    for VarTransRange in range(50, 501, 50):
-        transEfficiency = simFunc.simulation_func(sim_start, sim_end, VarTransRange, VarTransCap)
-        print("\nV2V Data Transmission Capacity:", VarTransCap, "vehicles at once")
-        print("V2V Transmission Range:", VarTransRange, "feet")
-        print("Duration of Simulation:", sim_end / (60 * 1000), "minutes")
-        print("Efficiency of V2V Information Dissemination:", "%.6f" % transEfficiency, "percent")
-        storeTransEff.append(transEfficiency)
-        storeTransRange.append(VarTransRange)
-        storeTransCap.append(VarTransCap)
+for simDur in range(len(sim_end)):
 
-# OPTIMUM VALUES
-maxTransEfficiency = max(storeTransEff)
-maxInd = storeTransEff.index(max(storeTransEff))
-OptTransCap = storeTransCap[maxInd]
-OptTransRange = storeTransRange[maxInd]
+    maxTransEfficiency = []
+    maxInd = []
+    OptTransCap = []
+    OptTransRange = []
+    SimDuration = []
+    storeTransEff = []  # stores V2V transmission efficiency values for different parameter inputs
+    storeTransCap = []  # stores V2V data transmission capacity values for different parameter inputs
+    storeTransRange = []  # stores V2V transmission range values for different parameter inputs
 
-print("\nOptimum results")
-print("For simulation start time:", "%.2f" % (sim_start/(60*1000)),
-      "minutes; simulation duration:", "%.2f" % (sim_end/(60 * 1000)), "minutes")
-print("Maximum Transmission Efficiency:", "%.4f" % maxTransEfficiency, "percent")
-print("Optimum Transmission Capacity:", OptTransCap, "vehicles at once")
-print("Optimum Transmission Range:", OptTransRange, "feet")
+    for VarTransCap in range(1, 6, 1):
+        for VarTransRange in range(50, 501, 50):
+            transEfficiency = simFunc.simulation_func(sim_start, sim_end[simDur], VarTransRange, VarTransCap)
+            print("\nV2V Data Transmission Capacity:", VarTransCap, "vehicles at once")
+            print("V2V Transmission Range:", VarTransRange, "feet")
+            print("Duration of Simulation:", sim_end[simDur] / (60 * 1000), "minutes")
+            print("Efficiency of V2V Information Dissemination:", "%.6f" % transEfficiency, "percent")
+            storeTransEff.append(transEfficiency)
+            storeTransCap.append(VarTransCap)
+            storeTransRange.append(VarTransRange)
+            worksheet.write(row, col, sim_start)
+            worksheet.write(row, col + 1, sim_end[simDur])
+            worksheet.write(row, col + 2, (sim_end[simDur]/(60 * 1000)))
+            worksheet.write(row, col + 3, VarTransCap)
+            worksheet.write(row, col + 4, VarTransRange)
+            worksheet.write(row, col + 5, transEfficiency)
+            row += 1
+
+    # Optimum values for every simulation duration
+    maxTransEfficiency = max(storeTransEff)
+    maxInd = storeTransEff.index(max(storeTransEff))
+    OptTransCap = storeTransCap[maxInd]
+    OptTransRange = storeTransRange[maxInd]
+    SimDuration = sim_end[simDur]
+
+    # Writing optimum values in excel file
+    worksheet.write(row, col, 'Optimum')
+    row += 1
+    worksheet.write(row, col, sim_start)
+    worksheet.write(row, col + 1, SimDuration)
+    worksheet.write(row, col + 2, (SimDuration/(60 * 1000)))
+    worksheet.write(row, col + 3, OptTransCap)
+    worksheet.write(row, col + 4, OptTransRange)
+    worksheet.write(row, col + 5, maxTransEfficiency)
+    row += 2
+
+    # Printing optimum results for every simulation duration
+    print("\nOptimum results")
+    print("For simulation start time:", "%.3f" % (sim_start / (60 * 1000)),
+          "minutes; simulation duration:", "%.3f" % (SimDuration / (60 * 1000)), "minutes")
+    print("Maximum Transmission Efficiency:", "%.4f" % maxTransEfficiency, "percent")
+    print("Optimum Transmission Capacity:", OptTransCap, "vehicles at once")
+    print("Optimum Transmission Range:", OptTransRange, "feet")
+
+workbook.close()
 
 
 # ---------------- main loop of the program ---------------- #
@@ -116,13 +166,13 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit(0) # exit the whole program
-    
+
     render.Background(screen).draw()  # render the screen
-    
+
     # generate and draw all car objects
     tmp_df=df_test[df_test['Global_Time']==TimePoint]
     tmp_ID=tmp_df['Vehicle_ID'].unique()
-    
+
     for key in tmp_ID:
         X=float(tmp_df[tmp_df['Vehicle_ID']==key].Local_X)
         Y=float(tmp_df[tmp_df['Vehicle_ID']==key].Local_Y)
@@ -177,9 +227,3 @@ while True:
 
     pygame.display.update()
     clock.tick(fps)
-    
-
-
-
-
-
