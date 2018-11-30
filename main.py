@@ -79,7 +79,7 @@ clock = pygame.time.Clock()
 # transCap - V2V data transmission capacity of a vehicle
 
 sim_start = 600  # Start time of simulation
-sim_end = [6000, 12000, 30000, 48000, 60000, 120000, 300000, 480000, 600000]  # Duration of simulation
+sim_end = [12000] #[6000, 12000, 30000, 48000, 60000, 120000, 300000, 480000, 600000]  # Duration of simulation
 
 # Creating an excel file for output
 name = "SimulationOutput" + str(sim_start) + ".xlsx"
@@ -112,8 +112,8 @@ for simDur in range(len(sim_end)):
     storeTransCap = []  # stores V2V data transmission capacity values for different parameter inputs
     storeTransRange = []  # stores V2V transmission range values for different parameter inputs
 
-    for VarTransCap in range(1, 6, 1):
-        for VarTransRange in range(50, 501, 50):
+    for VarTransCap in range(5, 6, 1):
+        for VarTransRange in range(50, 51, 50):
             transEfficiency = simFunc.simulation_func(sim_start, sim_end[simDur], VarTransRange, VarTransCap)
             print("\nV2V Data Transmission Capacity:", VarTransCap, "vehicles at once")
             print("V2V Transmission Range:", VarTransRange, "feet")
@@ -158,73 +158,73 @@ for simDur in range(len(sim_end)):
 
 workbook.close()
 
-
-# ---------------- main loop of the program ---------------- #
-while True:
-
-    # event processing, user does stuff here or game is exited
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit(0) # exit the whole program
-
-    render.Background(screen).draw()  # render the screen
-
-    # generate and draw all car objects
-    tmp_df=df_test[df_test['Global_Time']==TimePoint]
-    tmp_ID=tmp_df['Vehicle_ID'].unique()
-
-    for key in tmp_ID:
-        X=float(tmp_df[tmp_df['Vehicle_ID']==key].Local_X)
-        Y=float(tmp_df[tmp_df['Vehicle_ID']==key].Local_Y)
-        carData[key].update(vID=key,xLoc=X,yLoc=Y)
-
-
-    for key in tmp_ID:
-        item=carData[key]
-        render.Car(screen,x=item.xLoc,y=item.yLoc, color=item.color).draw(RangeXY)
-
-
-    TimePoint += 100
-    '''
-    for i in range(0, len(sorted_df)):
-        timeStep_df = sorted_df[sorted_df['Global_Time'] == time]
-        if(len(timeStep_df) != 0): # loop through the time step dataframe
-            time += 100 # update the time step on each iteration
-            print(timeStep_df)
-
-        #THIS IS WHERE THE OBJECTS WILL BE GENERATED FROM KEYUAN'S OBJECT FILE
-        else:
-            break
-    '''
-
-
-
-
-    '''
-    #Original car rendering from csv
-    for key in carData.keys():
-        render.Car(screen, cid=key, direction=carData[key][0], speed=carData[key][1],
-                   x=carData[key][2], y=carData[key][3]).draw()
-    '''
-
-    # update car x-position
-
-    '''
-    #THIS WAS THE ORIGINAL CARDATA POSITION UPDATE FOR GUI PURPOSES
-    for key in carData.keys():
-        if carData[key][2] <= Size[0]:
-            carData[key][2] += carData[key][1]/5  # speed cut by factor of 5 to prevent cars from looking too fast
-        else:
-            carData[key][2] = -20
-    '''
-
-
-    #NOTE: THIS SECTION NEEDS UPDATED ONCE KEYUAN'S OBJECTS ARE CREATED
-
-    if TimePoint==GT[100]:
-        pass
-        #time.sleep(10)
-
-    pygame.display.update()
-    clock.tick(fps)
+#
+# # ---------------- main loop of the program ---------------- #
+# while True:
+#
+#     # event processing, user does stuff here or game is exited
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             pygame.quit()
+#             sys.exit(0) # exit the whole program
+#
+#     render.Background(screen).draw()  # render the screen
+#
+#     # generate and draw all car objects
+#     tmp_df=df_test[df_test['Global_Time']==TimePoint]
+#     tmp_ID=tmp_df['Vehicle_ID'].unique()
+#
+#     for key in tmp_ID:
+#         X=float(tmp_df[tmp_df['Vehicle_ID']==key].Local_X)
+#         Y=float(tmp_df[tmp_df['Vehicle_ID']==key].Local_Y)
+#         carData[key].update(vID=key,xLoc=X,yLoc=Y)
+#
+#
+#     for key in tmp_ID:
+#         item=carData[key]
+#         render.Car(screen,x=item.xLoc,y=item.yLoc, color=item.color).draw(RangeXY)
+#
+#
+#     TimePoint += 100
+#     '''
+#     for i in range(0, len(sorted_df)):
+#         timeStep_df = sorted_df[sorted_df['Global_Time'] == time]
+#         if(len(timeStep_df) != 0): # loop through the time step dataframe
+#             time += 100 # update the time step on each iteration
+#             print(timeStep_df)
+#
+#         #THIS IS WHERE THE OBJECTS WILL BE GENERATED FROM KEYUAN'S OBJECT FILE
+#         else:
+#             break
+#     '''
+#
+#
+#
+#
+#     '''
+#     #Original car rendering from csv
+#     for key in carData.keys():
+#         render.Car(screen, cid=key, direction=carData[key][0], speed=carData[key][1],
+#                    x=carData[key][2], y=carData[key][3]).draw()
+#     '''
+#
+#     # update car x-position
+#
+#     '''
+#     #THIS WAS THE ORIGINAL CARDATA POSITION UPDATE FOR GUI PURPOSES
+#     for key in carData.keys():
+#         if carData[key][2] <= Size[0]:
+#             carData[key][2] += carData[key][1]/5  # speed cut by factor of 5 to prevent cars from looking too fast
+#         else:
+#             carData[key][2] = -20
+#     '''
+#
+#
+#     #NOTE: THIS SECTION NEEDS UPDATED ONCE KEYUAN'S OBJECTS ARE CREATED
+#
+#     if TimePoint==GT[100]:
+#         pass
+#         #time.sleep(10)
+#
+#     pygame.display.update()
+#     clock.tick(fps)

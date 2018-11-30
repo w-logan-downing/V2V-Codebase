@@ -73,7 +73,7 @@ def simulation_func(sim_start, sim_end, transRange, transCap):
         storeVehicles.append(tmp_ID)  # stores IDs of all vehicles that enter the simulation
 
         # ------ Find vehicles that already have data (information packet) ------ #
-        storeVehWithData = []
+        # storeVehWithData = []
         for veh in range(len(tmp_ID)):
             if carData[tmp_ID[veh]].haveData == 1:
                 storeVehWithData.append(tmp_ID[veh])  # stores IDs of all vehicles that already have data
@@ -116,6 +116,6 @@ def simulation_func(sim_start, sim_end, transRange, transCap):
     VehWithData.sort()
 
     # ------------------ Transmission Efficiency ------------------ #
-    transEfficiency = (len(storeVehWithData)/len(VehAllInSim))*100
+    transEfficiency = (len(VehWithData)/len(VehAllInSim))*100
 
     return transEfficiency
